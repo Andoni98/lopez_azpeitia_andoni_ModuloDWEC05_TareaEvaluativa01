@@ -1,0 +1,89 @@
+<div class="container">
+  <h1>🎮 Juego de Adivinación (SPA)</h1>
+
+  <div *ngIf="!juegoIniciado" class="config-section">
+    <h2>1. Configuración de Partida</h2>
+    <form [formGroup]="configuracionForm" (ngSubmit)="recogerDatosYComenzarJuego()">
+
+      <div class="form-group">
+        <label for="nombre">Nombre del jugador:</label>
+        <input id="nombre" type="text" formControlName="nombre" placeholder="Tu nombre" />
+        <div class="feedback">
+          <span *ngIf="getControl('nombre')?.valid && getControl('nombre')?.touched" class="valid-feedback">
+            ✅
+          </span>
+          <span *ngIf="getControl('nombre')?.hasError('required') && getControl('nombre')?.touched" class="error-feedback">
+            ⚠️ El nombre no puede estar vacío
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="apellido">Apellido:</label>
+        <input id="apellido" type="text" formControlName="apellido" placeholder="Tu apellido" />
+        <div class="feedback">
+          <span *ngIf="getControl('apellido')?.valid && getControl('apellido')?.touched" class="valid-feedback">
+            ✅
+          </span>
+          <span *ngIf="getControl('apellido')?.hasError('required') && getControl('apellido')?.touched" class="error-feedback">
+            ⚠️ El apellido no puede estar vacío
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="rango">Rango Máximo (N):</label>
+        <input id="rango" type="number" formControlName="rango" placeholder="Mínimo 4" />
+        <div class="feedback">
+          <span *ngIf="getControl('rango')?.valid && getControl('rango')?.touched" class="valid-feedback">
+            ✅
+          </span>
+          <span *ngIf="getControl('rango')?.hasError('min') && getControl('rango')?.touched" class="error-feedback">
+            ⚠️ El número introducido es menor que el rango mínimo (4)
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="intentos">Número de Intentos:</label>
+        <input id="intentos" type="number" formControlName="intentos" placeholder="Intentos" />
+        <div class="feedback">
+          <span *ngIf="getControl('intentos')?.valid && getControl('intentos')?.touched" class="valid-feedback">
+            ✅
+          </span>
+          <span *ngIf="getControl('intentos')?.invalid && getControl('intentos')?.touched" class="error-feedback">
+            ⚠️ Debe especificar el número de intentos.
+          </span>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="configuracionForm.invalid">
+        Comenzar Partida
+      </button>
+
+    </form>
+  </div>
+
+  <div *ngIf="juegoIniciado" class="game-section">
+    <hr>
+    <h2>2. Adivina el Número</h2>
+    <p class="welcome-message">{{ mensajeJuego }}</p>
+    <p>Intentos restantes: <strong>{{ intentosRestantes }}</strong></p>
+
+    <div *ngIf="!juegoTerminado" class="game-input-group">
+      <label for="adivinar">Introduce tu número (0 a {{ configuracion.rango - 1 }}):</label>
+      <input
+        id="adivinar"
+        type="number"
+        [(ngModel)]="numeroUsuario"
+        [min]="0"
+        [max]="configuracion.rango - 1"
+        placeholder="Tu intento"
+      />
+      <button (click)="comprobarNumero()" [disabled]="numeroUsuario === null || numeroUsuario === undefined">
+        Enviar
+      </button>
+    </div>
+  </div>
+
+</div>
