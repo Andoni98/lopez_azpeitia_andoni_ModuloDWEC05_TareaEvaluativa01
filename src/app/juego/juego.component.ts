@@ -20,8 +20,6 @@ export class JuegoComponent implements OnInit {
   intentosRestantes!: number;
   mensajeJuego: string = 'Introduce tu primer número.';
   numeroUsuario!: number;
-  
-  // 🚨 MODIFICADO: Bandera para controlar la interfaz del juego (se usa en el HTML)
   juegoTerminado: boolean = false; 
 
   constructor(private fb: FormBuilder) { }
@@ -50,8 +48,6 @@ export class JuegoComponent implements OnInit {
   iniciarPartida(): void {
     this.numeroObjetivo = Math.floor(Math.random() * this.configuracion.rango);
     this.intentosRestantes = this.configuracion.intentos;
-    
-    // 🚨 REINICIA el estado
     this.juegoTerminado = false; 
     
     this.mensajeJuego = `Ongi Etorri ${this.configuracion.nombre} ${this.configuracion.apellido}. ¡Adivina un número entre 0 y ${this.configuracion.rango - 1}! Tienes ${this.intentosRestantes} intentos.`;
@@ -73,11 +69,10 @@ export class JuegoComponent implements OnInit {
 
     const diferencia = this.numeroUsuario - this.numeroObjetivo;
 
-    // 🚨 VALIDACIÓN DE VICTORIA (Solo al presionar 'Enviar')
     if (diferencia === 0) {
       this.mensajeJuego = `¡Has Ganado! 🎉 El número era ${this.numeroObjetivo}.`;
       this.intentosRestantes = 0; 
-      this.juegoTerminado = true; // 🚨 Finaliza y oculta el input
+      this.juegoTerminado = true; 
       return;
     }
 
@@ -100,7 +95,7 @@ export class JuegoComponent implements OnInit {
     
     if (this.intentosRestantes === 0) {
         this.mensajeJuego += ` ¡Se acabaron los intentos! 😥 El número era ${this.numeroObjetivo}.`;
-        this.juegoTerminado = true; // 🚨 Finaliza si los intentos llegan a 0
+        this.juegoTerminado = true; // Finaliza si los intentos llegan a 0
     }
 
     // Limpiar el input para el siguiente intento

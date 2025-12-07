@@ -47,13 +47,13 @@ input[type="text"], input[type="number"] {
 }
 
 .error-feedback {
-  color: #dc3545; /* Rojo para errores */
+  color: #dc3545; 
   font-size: 0.9em;
   font-weight: bold;
 }
 
 .valid-feedback {
-  color: #28a745; /* Verde (✅) para correcto */
+  color: #28a745; 
   font-size: 0.9em;
   font-weight: bold;
 }
